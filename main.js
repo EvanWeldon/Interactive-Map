@@ -11,13 +11,15 @@ const myMap = {
 		center: this.coordinates,
 		zoom: 15,
 		});
-		// add openstreetmap tiles
+
+		// openstreetmap tiles
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		attribution:
 			'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 		minZoom: '15',
 		}).addTo(this.map)
-		// create and add geolocation marker
+
+		// user geolocation marker
 		const marker = L.marker(this.coordinates)
 		marker
 		.addTo(this.map)
@@ -25,7 +27,7 @@ const myMap = {
 		.openPopup()
 	},
 
-	// add business markers
+	//location markers
 	addMarkers() {
 		for (var i = 0; i < this.businesses.length; i++) {
 		this.markers = L.marker([
@@ -35,10 +37,15 @@ const myMap = {
 			.bindPopup(`<p1>${this.businesses[i].name}</p1>`)
 			.addTo(this.map)
 		}
+		// i attempted to clear the markers
+		if (this.markers != undefined) {
+			map.removeLayer(marker);
+	  };
+
 	},
 }
 
-// get coordinates via geolocation api
+// geolocation api
 async function getCoords(){
 	const pos = await new Promise((resolve, reject) => {
 		navigator.geolocation.getCurrentPosition(resolve, reject)
